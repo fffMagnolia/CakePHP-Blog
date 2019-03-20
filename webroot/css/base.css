@@ -426,6 +426,11 @@ th {
     padding: 0;
 }
 
+/*add*/
+li {
+    list-style-type: none;
+}
+
 /**
  * Foundation for Sites by ZURB
  * Version 5
