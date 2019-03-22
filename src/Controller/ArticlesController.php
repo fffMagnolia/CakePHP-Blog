@@ -51,14 +51,17 @@ class ArticlesController extends AppController
         $article = $this->Articles->newEntity();
         if ($this->request->is('post')) {
             $article = $this->Articles->patchEntity($article, $this->request->getData());
+            //仮置きユーザID
+            $article->user_id = 1;
             if ($this->Articles->save($article)) {
                 $this->Flash->success(__('The article has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'admin']);
             }
             $this->Flash->error(__('The article could not be saved. Please, try again.'));
         }
         $this->set(compact('article'));
+        $this->render('/Admin/admin-add');
     }
 
     /**
@@ -83,6 +86,7 @@ class ArticlesController extends AppController
             $this->Flash->error(__('The article could not be saved. Please, try again.'));
         }
         $this->set(compact('article'));
+        $this->render('/Admin/admin-edit');
     }
 
     /**
@@ -103,5 +107,21 @@ class ArticlesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function admin() {
+        $articles = $this->paginate($this->Articles);
+
+        $this->set(compact('articles'));
+        $this->render('/Admin/admin-index');
+    }
+
+    public function adminView($id = null) {
+        $article = $this->Articles->get($id, [
+            'contain' => []
+        ]);
+
+        $this->set('article', $article);
+        $this->render('/Admin/admin-view');
     }
 }

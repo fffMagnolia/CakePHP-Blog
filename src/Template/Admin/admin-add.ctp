@@ -17,8 +17,6 @@
         <?php
             echo $this->Form->control('title');
             echo $this->Form->control('body');
-            echo $this->Form->control('slug');
-            echo $this->Form->control('user_id');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
