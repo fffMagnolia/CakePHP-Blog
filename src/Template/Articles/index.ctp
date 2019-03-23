@@ -4,14 +4,15 @@
  * @var \App\Model\Entity\Article[]|\Cake\Collection\CollectionInterface $articles
  */
 ?>
+<!-- アーカイブとタグの表示用に残しておく -->
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Article'), ['action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="articles index large-9 medium-8 columns content">
     <h3>EE</h3>
+    <p><?= $this->Html->link(__('New Article'), ['action' => 'add']) ?></p>
     <!-- 記事タイトル（スペース）作成日時　の形式でリスト表示 -->
     <table class="vertical-table">
         <tr><th>Title</th><th>Created</th></tr>
