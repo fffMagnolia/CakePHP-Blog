@@ -13,41 +13,48 @@ use App\Controller\AppController;
 class ArticlesController extends AppController
 {
 
+    //===== 閲覧側・管理側共通 =====
     /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|void
+     * 記事表示用。指定された記事のデータを返す
      */
-    public function index()
-    {
+    public function getArticle($id = null) {
+        $article = $this->Articles->get($id, [
+            'contain' => []
+        ]);
+
+        return $article;
+    }
+
+    /**
+     * アーカイブリンク作成用。下記のクエリをクエリビルダーで作成
+     * SELECT DISTINCT MONTH(created) AS month, YEAR(created) AS year, count(id) AS post_count FROM articles GROUP BY year, month ORDER BY year, month;
+     * NOTE:$countは改良の余地アリ
+     */
+    public function setArchives() {
+        $query = $this->Articles->find();
+        $count = $query->func()->count('id');
+        $archives = $query->select(['year' => 'YEAR(created)', 'month' => 'MONTH(created)', 'count' => $count])
+            ->distinct(['year', 'month'])
+            ->order(['count' => 'DESC']);
+
+        return $archives;
+    }
+
+    //===== 閲覧側 =====
+    public function index() {
         $articles = $this->paginate($this->Articles);
 
         $this->set(compact('articles'));
     }
 
-    /**
-     * View method
-     *
-     * @param string|null $id Article id.
-     * @return \Cake\Http\Response|void
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $article = $this->Articles->get($id, [
-            'contain' => []
-        ]);
+    public function view() {
+        $article = getArticle();
 
         $this->set('article', $article);
     }
 
-    /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
+    //===== 管理側 =====
+    public function add() {
         $article = $this->Articles->newEntity();
         if ($this->request->is('post')) {
             $article = $this->Articles->patchEntity($article, $this->request->getData());
@@ -64,15 +71,7 @@ class ArticlesController extends AppController
         $this->render('/Admin/admin-add');
     }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Article id.
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
+    public function edit($id = null) {
         $article = $this->Articles->get($id, [
             'contain' => []
         ]);
@@ -89,15 +88,8 @@ class ArticlesController extends AppController
         $this->render('/Admin/admin-edit');
     }
 
-    /**
-     * Delete method
-     *
-     * @param string|null $id Article id.
-     * @return \Cake\Http\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
+
+    public function delete($id = null){
         $this->request->allowMethod(['post', 'delete']);
         $article = $this->Articles->get($id);
         if ($this->Articles->delete($article)) {
@@ -110,18 +102,35 @@ class ArticlesController extends AppController
     }
 
     public function admin() {
-        $articles = $this->paginate($this->Articles);
-
+        //記事表示部分
+        $articles = $this->paginate($this->Articles);        
+        //一度全データを取得する
+        //↑とどう違う？
+        $query = $this->Articles->find();
+        //count関数を準備
+        $count = $query->func()->count('id');
+        //クエリビルダーでクエリの作成。↓のクエリになる
+        //SELECT DISTINCT MONTH(created) AS month, YEAR(created) AS year, count(id) AS post_count FROM articles GROUP BY year, month ORDER BY year, month;
+        $archives = $query->select(['year' => 'YEAR(created)', 'month' => 'MONTH(created)', 'count' => $count])
+            ->distinct(['year', 'month'])
+            ->order(['count' => 'DESC']);
+        //セット
+        $this->set(compact('archives'));
+        //記事表示用にセット→遷移
         $this->set(compact('articles'));
         $this->render('/Admin/admin-index');
     }
 
-    public function adminView($id = null) {
-        $article = $this->Articles->get($id, [
-            'contain' => []
-        ]);
+
+
+    public function adminView() {
+        $article = getArticle();
 
         $this->set('article', $article);
         $this->render('/Admin/admin-view');
+    }
+
+    public function archive() {
+        //arhive表示用
     }
 }
