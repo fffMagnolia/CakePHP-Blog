@@ -4,10 +4,9 @@
  * @var \App\Model\Entity\Article[]|\Cake\Collection\CollectionInterface $articles
  */
 ?>
-<!-- アーカイブとタグの表示用に残しておく -->
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
+        <li class="heading"><?= __('Archives') ?></li>
         <?php foreach($archives as $archive): ?>
             <?php $link = "{$archive->year}/{$archive->month}({$archive->count})"; ?>
             <li><?= $this->Html->link(__(h($link)), ['action' => 'archive']) ?></li>

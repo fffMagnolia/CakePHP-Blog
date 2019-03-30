@@ -17,7 +17,7 @@ class ArticlesController extends AppController
     /**
      * 記事表示用。指定された記事のデータを返す
      */
-    public function getArticle($id = null) {
+    public function getArticle($id) {
         $article = $this->Articles->get($id, [
             'contain' => []
         ]);
@@ -30,7 +30,7 @@ class ArticlesController extends AppController
      * SELECT DISTINCT MONTH(created) AS month, YEAR(created) AS year, count(id) AS post_count FROM articles GROUP BY year, month ORDER BY year, month;
      * NOTE:$countは改良の余地アリ
      */
-    public function setArchives() {
+    public function getArchives() {
         $query = $this->Articles->find();
         $count = $query->func()->count('id');
         $archives = $query->select(['year' => 'YEAR(created)', 'month' => 'MONTH(created)', 'count' => $count])
@@ -43,12 +43,14 @@ class ArticlesController extends AppController
     //===== 閲覧側 =====
     public function index() {
         $articles = $this->paginate($this->Articles);
+        $archives = $this->getArchives();
 
         $this->set(compact('articles'));
+        $this->set(compact('archives'));
     }
 
-    public function view() {
-        $article = getArticle();
+    public function view($id = null) {
+        $article = $this->getArticle($id);
 
         $this->set('article', $article);
     }
@@ -88,7 +90,6 @@ class ArticlesController extends AppController
         $this->render('/Admin/admin-edit');
     }
 
-
     public function delete($id = null){
         $this->request->allowMethod(['post', 'delete']);
         $article = $this->Articles->get($id);
@@ -101,30 +102,21 @@ class ArticlesController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+    /**
+     * 管理側のトップページ表示用
+     */
     public function admin() {
-        //記事表示部分
-        $articles = $this->paginate($this->Articles);        
-        //一度全データを取得する
-        //↑とどう違う？
-        $query = $this->Articles->find();
-        //count関数を準備
-        $count = $query->func()->count('id');
-        //クエリビルダーでクエリの作成。↓のクエリになる
-        //SELECT DISTINCT MONTH(created) AS month, YEAR(created) AS year, count(id) AS post_count FROM articles GROUP BY year, month ORDER BY year, month;
-        $archives = $query->select(['year' => 'YEAR(created)', 'month' => 'MONTH(created)', 'count' => $count])
-            ->distinct(['year', 'month'])
-            ->order(['count' => 'DESC']);
-        //セット
-        $this->set(compact('archives'));
-        //記事表示用にセット→遷移
+        $articles = $this->paginate($this->Articles);
+        $archives = $this->getArchives();
+
         $this->set(compact('articles'));
+        $this->set(compact('archives'));
         $this->render('/Admin/admin-index');
     }
 
-
-
-    public function adminView() {
-        $article = getArticle();
+    public function adminView($id = null) {
+        //外部に出したらエラーが出る。要確認
+        $article = $this->getArticle($id);
 
         $this->set('article', $article);
         $this->render('/Admin/admin-view');
