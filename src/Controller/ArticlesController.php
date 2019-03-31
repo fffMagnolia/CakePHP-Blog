@@ -35,6 +35,7 @@ class ArticlesController extends AppController
         $count = $query->func()->count('id');
         $archives = $query->select(['year' => 'YEAR(created)', 'month' => 'MONTH(created)', 'count' => $count])
             ->distinct(['year', 'month'])
+            //BUG:時系列の逆順にするのが正しい
             ->order(['count' => 'DESC']);
 
         return $archives;
@@ -121,8 +122,22 @@ class ArticlesController extends AppController
         $this->set('article', $article);
         $this->render('/Admin/admin-view');
     }
+    //arhive表示用
+    public function archive($year, $month) {
+        //問い合わせる日付の作成
+        $date = date("Y-m", mktime(0, 0, 0, $month, 1, $year));
 
-    public function archive() {
-        //arhive表示用
+        $query = $this->Articles->find();
+        //選択されたリンクの年月日に該当する記事を取得
+        $articles = $query->select()
+            ->where(['created LIKE' => "{$date}%"])
+            ->order(['id' => 'DESC']);
+        $articles = $this->paginate($articles);
+        //アーカイブリンク用のデータを取得
+        $archives = $this->getArchives();
+        
+        $this->set('articles', $articles);
+        $this->set(compact('archives'));
+        $this->render('/Archive/archive-view');
     }
 }
