@@ -15,7 +15,6 @@
 </nav>
 <div class="articles index large-9 medium-8 columns content">
     <h3>EE</h3>
-    <p><?= $this->Html->link(__('New Article'), ['action' => 'add']) ?></p>
     <table class="vertical-table">
         <tr><th>Title</th><th>Created</th></tr>
         <?php foreach($articles as $article): ?>
