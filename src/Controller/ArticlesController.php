@@ -28,15 +28,16 @@ class ArticlesController extends AppController
     /**
      * アーカイブリンク作成用。下記のクエリをクエリビルダーで作成
      * SELECT DISTINCT MONTH(created) AS month, YEAR(created) AS year, count(id) AS post_count FROM articles GROUP BY year, month ORDER BY year, month;
-     * NOTE:$countは改良の余地アリ
      */
     public function getArchives() {
         $query = $this->Articles->find();
+        //NOTE:改良の余地アリ
         $count = $query->func()->count('id');
         $archives = $query->select(['year' => 'YEAR(created)', 'month' => 'MONTH(created)', 'count' => $count])
             ->distinct(['year', 'month'])
-            //BUG:時系列の逆順にするのが正しい
-            ->order(['count' => 'DESC']);
+            //NOTE:もっといい方法はないものか
+            ->order(['year' => 'DESC'])
+            ->order(['month' => 'DESC']);
 
         return $archives;
     }
@@ -71,7 +72,13 @@ class ArticlesController extends AppController
             $this->Flash->error(__('The article could not be saved. Please, try again.'));
         }
         $this->set(compact('article'));
+        //全アクションの共通処理。まとめたいけど仮置き
+        $archives = $this->getArchives();
+        $this->set(compact('archives'));
+
         $this->render('/Admin/admin-add');
+
+
     }
 
     public function edit($id = null) {
@@ -88,6 +95,10 @@ class ArticlesController extends AppController
             $this->Flash->error(__('The article could not be saved. Please, try again.'));
         }
         $this->set(compact('article'));
+        //全アクションの共通処理。まとめたいけど仮置き
+        $archives = $this->getArchives();
+        $this->set(compact('archives'));
+        
         $this->render('/Admin/admin-edit');
     }
 
@@ -116,12 +127,12 @@ class ArticlesController extends AppController
     }
 
     public function adminView($id = null) {
-        //外部に出したらエラーが出る。要確認
         $article = $this->getArticle($id);
 
         $this->set('article', $article);
         $this->render('/Admin/admin-view');
     }
+
     //arhive表示用
     public function archive($year, $month) {
         //問い合わせる日付の作成
