@@ -4,6 +4,7 @@ namespace App\Model\Table;
 
 use Cake\ORM\Table;
 use Cake\Utility\Text;
+use Cake\Validation\Validator;
 
 class ArticlesTable extends Table {
     public function initialize(array $config) {
@@ -18,5 +19,17 @@ class ArticlesTable extends Table {
             //セット。サンプルで行ったようなサイズ調整はしない
             $entity->slug = $slug;
         }
+    }
+
+    /**
+     * バリデーションを行う
+     * title,bodyの空白禁止
+     */
+    public function validationDefault(Validator $validator) {
+        $validator
+            ->allowEmptyString('title', false)
+            ->allowEmptyString('body', false);
+
+        return $validator;
     }
 }

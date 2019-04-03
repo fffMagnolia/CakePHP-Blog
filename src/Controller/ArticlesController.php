@@ -24,6 +24,19 @@ class ArticlesController extends AppController {
         return $article;
     }
 
+    /**
+     * ページネーションの設定
+     */
+    public $paginate = [
+        'limit' => 3,
+        'order' => [ 'Articles.created' => 'desc']
+    ];
+
+    public function initialize() {
+        parent::initialize();
+        $this->loadComponent('Paginator');
+    }
+
     //===== 閲覧側 =====
     public function index() {
         $articles = $this->paginate($this->Articles);
