@@ -51,5 +51,22 @@ class AppController extends Controller
          * see https://book.cakephp.org/3.0/en/controllers/components/security.html
          */
         //$this->loadComponent('Security');
+
+        //サイドバーの機能はここで実装。全アクションの共通処理とする
+        $archives = $this->getArchives();
+        $this->set(compact('archives'));
+    }
+
+    public function getArchives() {
+        $query = $this->Articles->find();
+        //NOTE:改良の余地アリ
+        $count = $query->func()->count('id');
+        $archives = $query->select(['year' => 'YEAR(created)', 'month' => 'MONTH(created)', 'count' => $count])
+            ->distinct(['year', 'month'])
+            //NOTE:もっといい方法はないものか
+            ->order(['year' => 'DESC'])
+            ->order(['month' => 'DESC']);
+
+        return $archives;
     }
 }

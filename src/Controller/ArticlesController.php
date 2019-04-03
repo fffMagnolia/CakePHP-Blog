@@ -24,31 +24,12 @@ class ArticlesController extends AppController
 
         return $article;
     }
-
-    /**
-     * アーカイブリンク作成用。下記のクエリをクエリビルダーで作成
-     * SELECT DISTINCT MONTH(created) AS month, YEAR(created) AS year, count(id) AS post_count FROM articles GROUP BY year, month ORDER BY year, month;
-     */
-    public function getArchives() {
-        $query = $this->Articles->find();
-        //NOTE:改良の余地アリ
-        $count = $query->func()->count('id');
-        $archives = $query->select(['year' => 'YEAR(created)', 'month' => 'MONTH(created)', 'count' => $count])
-            ->distinct(['year', 'month'])
-            //NOTE:もっといい方法はないものか
-            ->order(['year' => 'DESC'])
-            ->order(['month' => 'DESC']);
-
-        return $archives;
-    }
-
+    
     //===== 閲覧側 =====
     public function index() {
         $articles = $this->paginate($this->Articles);
-        $archives = $this->getArchives();
 
         $this->set(compact('articles'));
-        $this->set(compact('archives'));
     }
 
     public function view($id = null) {
@@ -72,10 +53,6 @@ class ArticlesController extends AppController
             $this->Flash->error(__('The article could not be saved. Please, try again.'));
         }
         $this->set(compact('article'));
-        //全アクションの共通処理。まとめたいけど仮置き
-        $archives = $this->getArchives();
-        $this->set(compact('archives'));
-
         $this->render('/Admin/admin-add');
 
 
@@ -95,10 +72,6 @@ class ArticlesController extends AppController
             $this->Flash->error(__('The article could not be saved. Please, try again.'));
         }
         $this->set(compact('article'));
-        //全アクションの共通処理。まとめたいけど仮置き
-        $archives = $this->getArchives();
-        $this->set(compact('archives'));
-        
         $this->render('/Admin/admin-edit');
     }
 
@@ -119,10 +92,8 @@ class ArticlesController extends AppController
      */
     public function admin() {
         $articles = $this->paginate($this->Articles);
-        $archives = $this->getArchives();
 
         $this->set(compact('articles'));
-        $this->set(compact('archives'));
         $this->render('/Admin/admin-index');
     }
 
@@ -133,7 +104,7 @@ class ArticlesController extends AppController
         $this->render('/Admin/admin-view');
     }
 
-    //arhive表示用
+    //arhiveリンク作成用。default.ctpから呼ばれている
     public function archive($year, $month) {
         //問い合わせる日付の作成
         $date = date("Y-m", mktime(0, 0, 0, $month, 1, $year));
@@ -144,11 +115,8 @@ class ArticlesController extends AppController
             ->where(['created LIKE' => "{$date}%"])
             ->order(['id' => 'DESC']);
         $articles = $this->paginate($articles);
-        //アーカイブリンク用のデータを取得
-        $archives = $this->getArchives();
-        
+
         $this->set('articles', $articles);
-        $this->set(compact('archives'));
         $this->render('/Archive/archive-view');
     }
 }
