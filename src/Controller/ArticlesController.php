@@ -7,11 +7,10 @@ use App\Controller\AppController;
  * Articles Controller
  *
  * @property \App\Model\Table\ArticlesTable $Articles
- *
  * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * compact(): 引数を連想配列にしてくれるので、変数をまとめてビューに渡せる
  */
-class ArticlesController extends AppController
-{
+class ArticlesController extends AppController {
 
     //===== 閲覧側・管理側共通 =====
     /**
@@ -24,7 +23,7 @@ class ArticlesController extends AppController
 
         return $article;
     }
-    
+
     //===== 閲覧側 =====
     public function index() {
         $articles = $this->paginate($this->Articles);
@@ -35,7 +34,7 @@ class ArticlesController extends AppController
     public function view($id = null) {
         $article = $this->getArticle($id);
 
-        $this->set('article', $article);
+        $this->set(compact('article'));
     }
 
     //===== 管理側 =====
@@ -100,7 +99,7 @@ class ArticlesController extends AppController
     public function adminView($id = null) {
         $article = $this->getArticle($id);
 
-        $this->set('article', $article);
+        $this->set(compact('article'));
         $this->render('/Admin/admin-view');
     }
 
@@ -116,7 +115,7 @@ class ArticlesController extends AppController
             ->order(['id' => 'DESC']);
         $articles = $this->paginate($articles);
 
-        $this->set('articles', $articles);
+        $this->set(compact('articles'));
         $this->render('/Archive/archive-view');
     }
 }
