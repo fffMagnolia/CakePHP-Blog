@@ -52,7 +52,10 @@ class AppController extends Controller
          */
         //$this->loadComponent('Security');
 
-        //サイドバーの機能はここで実装。全アクションの共通処理とする
+        /** 
+         * サイドバーの機能はここで実装。全アクションの共通処理とする
+         * bakeでスケルトンを作成する際、ここでエラーが出るので一時的にコメントアウトしておくこと
+        */
         $archives = $this->getArchives();
         $this->set(compact('archives'));
     }

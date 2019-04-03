@@ -28,7 +28,7 @@ class ArticlesController extends AppController {
      * ページネーションの設定
      */
     public $paginate = [
-        'limit' => 3,
+        'limit' => 5,
         'order' => [ 'Articles.created' => 'desc']
     ];
 
