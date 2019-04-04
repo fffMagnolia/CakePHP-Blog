@@ -52,15 +52,45 @@ class AppController extends Controller
          */
         //$this->loadComponent('Security');
 
+        /**
+         * 認証用のコンポーネントを読み込む
+         */
+        $this->loadComponent('Auth', [
+            'authenticate' => [
+                'Form' => [
+                    'fields' => ['username' => 'email', 'password' => 'password']
+                ]
+            ],
+            'loginAction' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ],
+            'autorize' => ['Controller'],
+            'unauthorizedRedirect' => $this->referer()
+
+        ]);
+        
+        //閲覧だけ可能なようにする
+        $this->Auth->allow(['display', 'view', 'index']);
+
         /** 
          * サイドバーの機能はここで実装。全アクションの共通処理とする
-         * bakeでスケルトンを作成する際、ここでエラーが出るので一時的にコメントアウトしておくこと
+         * BUG:$this->...だとUsersControllerが対象になったりするので改善する
         */
-        //$archives = $this->getArchives();
-        //$this->set(compact('archives'));
+        $archives = $this->getArchives();
+        $this->set(compact('archives'));
+    }
+
+    /**
+      * 認証後許可するアクションを指定
+      * 全てのアクションを許可する
+    */
+    public function isAuthorized() {
+        return true;
     }
 
     public function getArchives() {
+        $this->loadModel('Articles');
         $query = $this->Articles->find();
         //NOTE:改良の余地アリ
         $count = $query->func()->count('id');
