@@ -66,7 +66,8 @@ class AppController extends Controller
                 'action' => 'login'
             ],
             'autorize' => ['Controller'],
-            'unauthorizedRedirect' => $this->referer()
+            'unauthorizedRedirect' => $this->referer(),
+            'authError' => 'この機能はログイン後使用することができます．'
 
         ]);
         

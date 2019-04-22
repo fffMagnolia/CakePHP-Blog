@@ -35,14 +35,14 @@ class UsersController extends AppController {
      *
      * @return \Cake\Http\Response|void
      */
-    /*
+    
     public function index()
     {
         $users = $this->paginate($this->Users);
 
         $this->set(compact('users'));
     }
-    */
+    
 
     /**
      * View method
@@ -135,6 +135,7 @@ class UsersController extends AppController {
     public function login() {
         if($this->request->is('post')) {
             $user = $this->Auth->identify();
+            //$this->log($user, LOG_DEBUG);
             if($user) {
                 $this->Auth->setUser($user);
                 return $this->redirect($this->Auth->redirectUrl());

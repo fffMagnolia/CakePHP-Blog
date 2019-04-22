@@ -5,6 +5,7 @@
  */
 ?>
 <div class="articles index large-9 medium-8 columns content">
+    <?= $this->Html->image('1_icon_test.jpg', ['alt' => 'success!']); ?>
     <p><?= $this->Html->link(__('New Article'), ['action' => 'add']) ?></p>
     <table class="vertical-table">
        <tr>
@@ -17,7 +18,7 @@
             <!-- DateTimeの書式 -->
             <td><?= h($article->created->format('Y-m-d H:m:s')) ?></td>
             <td><?= $this->Html->link(__('Edit'), ['action' => 'edit', $article->id]) ?></td>
-            <td><?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $article->id], ['confirm' => __('Are you sure you want to delete # {0}?', $article->id)]) ?></td>
+            <td><?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $article->id], ['confirm' => __("タイトル:{$article->title}を削除しますか?", $article->id)]) ?></td>
         </tr>
         <?php endforeach; ?>
     </table>
