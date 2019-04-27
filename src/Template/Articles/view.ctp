@@ -4,11 +4,14 @@
  * @var \App\Model\Entity\Article $article
  */
 ?>
-<div class="articles view large-9 medium-8 columns content">
-    <p><b><?= h($article->title) ?></b></p>
-    <div class="row">
-        <?= $this->Text->autoParagraph(h($article->body)); ?>
+<?= $this->Html->css('view.css') ?>
+<div class="container-fluid">
+    <div class="row title">
+        <p class="lead"><?= h($article->title) ?></p>
     </div>
-            <p>最終更新日： <?= h($article->modified->format('Y-m-d H:m:s')) ?></p>
-    </table>
+    <div class="row main">
+        <?= $this->Text->autoParagraph(h($article->body)); ?>
+    </div class="row">
+        <p class="text-right">最終更新日： <?= h($article->modified->format('Y-m-d H:m:s')) ?></p>
+    </div>
 </div>

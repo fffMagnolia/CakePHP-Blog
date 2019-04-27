@@ -24,44 +24,45 @@ $cakeDescription = 'EE';
         <?= $cakeDescription ?>
     </title>
     <?= $this->Html->meta('icon') ?>
-
+    <!-- 基本のCSS -->
     <?= $this->Html->css('base.css') ?>
-    <?= $this->Html->css('style.css') ?>
+    <!-- Bootstrapの追加 -->
+    <?= $this->Html->css('bootstrap/bootstrap.css') ?>
+    <?= $this->Html->script(['jquery/jquery.js', 'bootstrap/bootstrap.js']) ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 </head>
 <body>
-    <nav class="top-bar expanded" data-topbar role="navigation">
-        <ul class="title-area large-3 medium-4 columns">
-            <li class="name">
-                <h1><a href=""><?= $this->Html->link(__('EE'), ['controller' => 'articles', 'action' => 'index']) ?></a></h1>
-            </li>
-        </ul>
-        <!--
-        <div class="top-bar-section">
-            <ul class="right">
-                <li><a target="_blank" href="https://book.cakephp.org/3.0/">Documentation</a></li>
-                <li><a target="_blank" href="https://api.cakephp.org/3.0/">API</a></li>
-            </ul>
+    <div class="container-fluid">
+        <div class="row">
+            <h1 class="title-area">
+                <?= $this->Html->link(__('Exception/Expression'), ['controller' => 'articles', 'action' => 'index']) ?>
+                <!--<?= $this->Html->image('1_icon_test.jpg', ['alt' => 'success!']); ?>-->
+            </h1>
         </div>
-        -->
-    </nav>
-    <nav class="large-3 medium-4 columns" id="actions-sidebar">
-        <ul class="side-nav">
-            <li class="heading"><?= __('Archives') ?></li>
-            <?php foreach($archives as $archive): ?>
-                <?php $link = "{$archive->year}/{$archive->month}({$archive->count})"; ?>
-                <li><?= $this->Html->link(__(h($link)), ['controller' => 'articles', 'action' => 'archive', $archive->year, $archive->month]) ?></li>
-            <?php endforeach; ?>
-        </ul>
-    </nav>
-    <?= $this->Flash->render() ?>
-    <div class="container clearfix">
-        <?= $this->fetch('content') ?>
+        <div class="row">
+            <nav class="side-bar col-sm-3">
+                <p><?= __('アーカイブ') ?></p>
+                <ul class="archive-list list-unstyled">
+                    <?php foreach($archives as $archive): ?>
+                        <?php $link = "{$archive->year}/{$archive->month}({$archive->count})"; ?>
+                        <li><?= $this->Html->link(__(h($link)), ['controller' => 'articles', 'action' => 'archive', $archive->year, $archive->month]) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </nav>
+            <?= $this->Flash->render() ?>
+            <div class="col-sm-8">
+                <?= $this->fetch('content') ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-2"></div>
+            <footer class="col-sm-3 text-center">Powered by CakePHP</footer>
+            <div class="col-sm-2"></div>
+        </div>
     </div>
-    <footer>
-    </footer>
 </body>
 </html>

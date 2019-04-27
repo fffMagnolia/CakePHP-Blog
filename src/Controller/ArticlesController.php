@@ -31,7 +31,7 @@ class ArticlesController extends AppController {
      * ページネーションの設定
      */
     public $paginate = [
-        'limit' => 5,
+        'limit' => 10,
         'order' => [ 'Articles.created' => 'desc']
     ];
 
@@ -125,6 +125,9 @@ class ArticlesController extends AppController {
      * 管理側のトップページ表示用
      */
     public function admin() {
+        //デフォルトのレイアウトをオフにする．ここでオフにすれば指定のCSSファイルのみで設定できる
+        //$this->autoLayout = false;
+
         $articles = $this->paginate($this->Articles);
 
         $this->set(compact('articles'));

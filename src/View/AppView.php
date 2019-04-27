@@ -14,6 +14,9 @@
 namespace App\View;
 
 use Cake\View\View;
+//use BootstrapUI\View\UIView;
+//use BootstrapUI\View\UIViewTrait;
+
 
 /**
  * Application View
@@ -24,7 +27,7 @@ use Cake\View\View;
  */
 class AppView extends View
 {
-
+    //public $layout = 'BootstrapUI.default';
     /**
      * Initialization hook method.
      *
@@ -34,7 +37,9 @@ class AppView extends View
      *
      * @return void
      */
-    public function initialize()
-    {
+    public function initialize() {
+        //parent::initialize();
+        //↓の必要性が不明
+        //$this->loadHelper('Paginator', ['className' => 'BootstrapUI.Paginator']);
     }
 }
