@@ -4,16 +4,12 @@
  * @var \App\Model\Entity\Article $article
  */
 ?>
-<div class="articles form large-9 medium-8 columns content">
-    <p><?= $this->Html->link(__('←Return Admin Top'), ['action' => 'admin']) ?></p>
-    <?= $this->Form->create($article) ?>
-    <fieldset>
-        <legend><?= __('Edit Article') ?></legend>
-        <?php
-            echo $this->Form->control('title');
-            echo $this->Form->control('body');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
-</div>
+<?= $this->Html->css('form.css') ?>
+
+<p><?= $this->Html->link(__('↩︎'), ['action' => 'admin']) ?></p>
+<p class="lead"><?= __('Edit Article') ?></p>
+<?= $this->Form->create($article) ?>
+<div class="form-group"><?= $this->Form->control('title', ['class' => 'form-control']); ?></div>
+<div class="form-group"><?= $this->Form->control('body', ['class' => 'form-control', 'rows' => '15']); ?></div>
+<div class="form-group"><?= $this->Form->button('Submit', ['class' => 'btn btn-default clearfix pull-right']) ?></div>
+<?= $this->Form->end() ?>
