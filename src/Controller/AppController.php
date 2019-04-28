@@ -67,8 +67,11 @@ class AppController extends Controller
             ],
             'autorize' => ['Controller'],
             'unauthorizedRedirect' => $this->referer(),
-            'authError' => 'この機能はログイン後使用することができます．'
-
+            'authError' => 'この機能の使用にはログインが必要です',
+            'flash' => [
+                'key' => 'auth',
+                'element' => 'error'
+            ]
         ]);
         
         //閲覧だけ可能なようにする

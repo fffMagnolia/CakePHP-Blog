@@ -6,14 +6,14 @@
 ?>
 <div class="container-fluid">
     <div class="row">
-    <table class="table">
-        <?php foreach($articles as $article): ?>
-        <tr>
-            <td><?= $this->Html->link(__(h($article->title)), ['action' => 'view', $article->id]) ?></td>
-            <td><?= h($article->created->format('Y-m-d H:m:s')) ?></td>
-        </tr>
-        <?php endforeach; ?>
-    </table>
+        <table class="table">
+            <?php foreach($articles as $article): ?>
+            <tr>
+                <td><?= $this->Html->link(__(h($article->title)), ['action' => 'view', $article->id]) ?></td>
+                <td><?= h($article->created->format('Y-m-d H:m:s')) ?></td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
     </div>
     <div class="row paginator">
         <div class="col-sm-2"></div>
