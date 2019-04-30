@@ -75,7 +75,7 @@ class AppController extends Controller
         ]);
         
         //閲覧だけ可能なようにする
-        $this->Auth->allow(['display', 'view', 'index']);
+        $this->Auth->allow(['display', 'view', 'index', 'archive']);
 
         /** 
          * サイドバーの機能はここで実装。全アクションの共通処理とする

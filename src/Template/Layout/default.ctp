@@ -13,7 +13,7 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'EE';
+$cakeDescription = 'Exception.Expression';
 ?>
 <!DOCTYPE html>
 <html>
@@ -39,7 +39,7 @@ $cakeDescription = 'EE';
     <div class="container-fluid">
         <div class="row">
             <h1 class="title-area">
-                <?= $this->Html->link(__('Exception/Expression'), ['controller' => 'articles', 'action' => 'index']) ?>
+                <?= $this->Html->link(__('Exception.Expression'), ['controller' => 'articles', 'action' => 'index']) ?>
                 <!--<?= $this->Html->image('1_icon_test.jpg', ['alt' => 'success!']); ?>-->
             </h1>
         </div>
