@@ -24,11 +24,12 @@ $cakeDescription = 'EE';
         <?= $cakeDescription ?>
     </title>
     <?= $this->Html->meta('icon') ?>
-    <!-- 基本のCSS -->
-    <?= $this->Html->css('base.css') ?>
+
     <!-- Bootstrapの追加 -->
     <?= $this->Html->css('bootstrap/bootstrap.css') ?>
     <?= $this->Html->script(['jquery/jquery.js', 'bootstrap/bootstrap.js']) ?>
+    <!-- 基本のCSS -->
+    <?= $this->Html->css('base.css') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>

@@ -15,15 +15,17 @@
             <?php endforeach; ?>
         </table>
     </div>
+    <!-- BootstrapUIのPaginatorはfirst/lastが実装されていないのでCakePHPのを使用 -->
     <div class="row paginator">
         <div class="col-sm-2"></div>
         <div class="col-sm-7 text-center">
             <ul class="pagination">
-                <?= $this->Paginator->first('<< ' . __('first')) ?>
-                <?= $this->Paginator->prev('< ' . __('previous')) ?>
+                <!--<?= $this->Paginator->first('<< ' . __('最初')) ?>-->
+                <?= $this->Paginator->first('<< ') ?>
+                <?= $this->Paginator->prev('< ') ?>
                 <?= $this->Paginator->numbers() ?>
-                <?= $this->Paginator->next(__('next') . ' >') ?>
-                <?= $this->Paginator->last(__('last') . ' >>') ?>
+                <?= $this->Paginator->next(' >') ?>
+                <?= $this->Paginator->last(' >>') ?>
             </ul>
         </div>
         <div class="col-sm-2"></div>

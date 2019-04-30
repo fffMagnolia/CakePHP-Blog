@@ -13,8 +13,8 @@
  */
 namespace App\View;
 
-//use Cake\View\View;
-use BootstrapUI\View\UIView;
+use Cake\View\View;
+//use BootstrapUI\View\UIView;
 //use BootstrapUI\View\UIViewTrait;
 
 
@@ -25,7 +25,7 @@ use BootstrapUI\View\UIView;
  *
  * @link https://book.cakephp.org/3.0/en/views.html#the-app-view
  */
-class AppView extends UIView
+class AppView extends View
 {
     //public $layout = 'BootstrapUI.default';
     /**
@@ -38,9 +38,13 @@ class AppView extends UIView
      * @return void
      */
     public function initialize() {
-        parent::initialize();
+        //parent::initialize();
+        //cakePHPのdefault.ctpを参照させる
         $this->layout = 'default';
-        //↓の必要性が不明
-        //$this->loadHelper('Paginator', ['className' => 'BootstrapUI.Paginator']);
+
+        //Paginator以外のBootstrapUIのhelperをload
+        $this->loadHelper('Flash', ['className' => 'BootstrapUI.Flash']);
+        $this->loadHelper('Form',  ['className' => 'BootstrapUI.Form']);
+        $this->loadHelper('Html',  ['className' => 'BootstrapUI.Html']);
     }
 }

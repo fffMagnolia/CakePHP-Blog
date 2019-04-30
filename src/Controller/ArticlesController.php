@@ -61,10 +61,12 @@ class ArticlesController extends AppController {
             //記事と作成したユーザのIDを紐付ける
             $article->user_id = $this->Auth->user('id');
 
-            //画像アップロード関連の処理
+            //画像アップロード関連の処理．検証用なのでコメントアウトしている．
+            /*
             $dir = realpath(WWW_ROOT."/img");
             $img = $this->request->data['icon'];
             $this->file_upload($article->user_id, $img, $dir);
+            */
 
             if ($this->Articles->save($article)) {
                 $this->Flash->success(__('記事が投稿されました．'));

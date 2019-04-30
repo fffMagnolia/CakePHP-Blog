@@ -5,6 +5,8 @@
  */
 ?>
 <div class="container-fluid">
+    <!-- フラッシュメッセージの表示位置を指定 -->
+    <?= $this->Flash->render() ?>
     <div class="row admin-nav clearfix">
         <!--<?= $this->Html->image('1_icon_test.jpg', ['alt' => 'success!']); ?>-->
         <p class="pull-right"><?= $this->Html->link(__('新規作成'), ['action' => 'add']) ?></p>
@@ -27,11 +29,11 @@
         <div class="col-sm-2"></div>
         <div class="col-sm-7 text-center">
             <ul class="pagination">
-                <?= $this->Paginator->first('<< ' . __('first')) ?>
-                <?= $this->Paginator->prev('< ' . __('previous')) ?>
+                <?= $this->Paginator->first('<< ') ?>
+                <?= $this->Paginator->prev('< ') ?>
                 <?= $this->Paginator->numbers() ?>
-                <?= $this->Paginator->next(__('next') . ' >') ?>
-                <?= $this->Paginator->last(__('last') . ' >>') ?>
+                <?= $this->Paginator->next(' >') ?>
+                <?= $this->Paginator->last(' >>') ?>
             </ul>
         </div>
         <div class="col-sm-2"></div>
