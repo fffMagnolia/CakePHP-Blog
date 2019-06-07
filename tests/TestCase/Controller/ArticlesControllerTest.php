@@ -17,9 +17,9 @@ class ArticlesControllerTest extends TestCase
      *
      * @var array
      */
-    public $fixtures = [
+    /*public $fixtures = [
         'app.Articles'
-    ];
+    ];*/
 
     /**
      * Test index method
@@ -31,14 +31,19 @@ class ArticlesControllerTest extends TestCase
         $this->markTestIncomplete('Not implemented yet.');
     }
 
-    /**
-     * Test view method
-     *
-     * @return void
-     */
     public function testView()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        //IDを指定しなかった場合
+        $this->get('/articles/view/');
+        $this->assertResponseError();
+
+        //存在しないIDを指定した場合
+        $this->get('/articles/view/9999/');
+        $this->assertResponseError();
+
+        //存在するIDを指定した場合
+        $this->get('/articles/view/1');
+        $this->assertResponseOk();
     }
 
     /**
