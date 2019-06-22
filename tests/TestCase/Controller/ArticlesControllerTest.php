@@ -48,12 +48,19 @@ class ArticlesControllerTest extends TestCase
 
     /**
      * Test add method
-     *
-     * @return void
      */
     public function testAdd()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        //認証作業
+        $user_name = env('USER_NAME');
+        $password = env('PASSWORD');
+        $this->session([
+            'Auth' => ['User' => ['id' => 1, 'username' => "{$user_name}", 'password' => "{$password}"] ]
+        ]);
+        
+        $this->get('/articles/add/');
+        //無事アクセスできたらOK
+        $this->assertResponseOK();
     }
 
     /**

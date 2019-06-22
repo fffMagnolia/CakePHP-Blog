@@ -33,14 +33,17 @@ class ArticlesFixture extends TestFixture {
     /**
      * テストデータの用意。
      */
+    /*
     public $records = [
         [
             'title' => 'Test Article',
             'body' => 'これはテスト用の投稿記事です。',
             'slug' => '20190506000005',
             'created' => '2019-05-06 00:00:05',
-            'modified' => '2019-05-06 00:00:07'
+            'modified' => '2019-05-06 00:00:07',
+            'user_id' => 
 
         ]
     ];
+    */
 }
