@@ -3,10 +3,10 @@ return [
 'debug' => false,
 
 'Security' => [
-    'salt' => env('SALT')
+    'salt' => $_ENV('SALT')
 ],
 
-$url = parse_url(env('DATABASE_URL')),
+$url = parse_url($_ENV('DATABASE_URL')),
 'Datasources' => [
         'default' => [
             'className' => 'Cake\Database\Connection',
