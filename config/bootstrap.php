@@ -80,8 +80,12 @@ try {
  * Load an environment local configuration file.
  * You can use a file like app_local.php to provide local overrides to your
  * shared configuration.
+ * 本番用の設定ファイルを読み込む
  */
 //Configure::load('app_local', 'default');
+if(isset($_ENV['CAKE_ENV'])) {
+    Config::load('app_'.$_ENV['CAKE_ENV'], 'default');
+}
 
 /*
  * When debug = true the metadata cache should only last
