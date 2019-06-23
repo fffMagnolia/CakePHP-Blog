@@ -6,21 +6,22 @@ return [
     'salt' => env('SALT')
 ],
 
+$url = parse_url(env('DATABASE_URL')),
 'Datasources' => [
         'default' => [
             'className' => 'Cake\Database\Connection',
             'driver' => 'Cake\Database\Driver\Postgres',
             'persistent' => false,
-            'host' => 'localhost',
+            'host' => $url['host'],
             /*
              * CakePHP will use the default DB port based on the driver selected
              * MySQL on MAMP uses port 8889, MAMP users will want to uncomment
              * the following line and set the port accordingly
              */
             //'port' => 'non_standard_port_number',
-            'username' => 'DB_USER_NAME',
-            'password' => 'DB_PASSWORD',
-            'database' => 'DB_NAME',
+            'username' => $url['user'],
+            'password' => $url['pass'],
+            'database' => substr($url['path'], 1),
             /*
              * You do not need to set this flag to use full utf-8 encoding (internal default since CakePHP 3.6).
              */
