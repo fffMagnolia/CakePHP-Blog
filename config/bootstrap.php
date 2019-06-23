@@ -84,7 +84,7 @@ try {
  */
 //Configure::load('app_local', 'default');
 if(isset($_ENV['CAKE_ENV'])) {
-    Config::load('app_'.$_ENV['CAKE_ENV'], 'default');
+    Configure::load('app_'.$_ENV['CAKE_ENV'], 'default');
 }
 
 /*

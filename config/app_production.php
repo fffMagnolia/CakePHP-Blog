@@ -1,8 +1,10 @@
-'debug' => false
+<?php
+return [
+'debug' => false,
 
 'Security' => [
     'salt' => env('SALT')
-]
+],
 
 'Datasources' => [
         'default' => [
@@ -49,3 +51,5 @@
 
             'url' => env('DATABASE_URL', null),
         ],
+    ],
+];
