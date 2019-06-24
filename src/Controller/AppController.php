@@ -81,8 +81,8 @@ class AppController extends Controller
          * サイドバーの機能はここで実装。全アクションの共通処理とする
          * BUG:$this->...だとUsersControllerが対象になったりするので改善する
         */
-        $archives = $this->getArchives();
-        $this->set(compact('archives'));
+        //$archives = $this->getArchives();
+        //$this->set(compact('archives'));
     }
 
     /**
