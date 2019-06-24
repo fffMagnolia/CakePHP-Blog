@@ -81,8 +81,8 @@ class AppController extends Controller
          * サイドバーの機能はここで実装。全アクションの共通処理とする
          * BUG:$this->...だとUsersControllerが対象になったりするので改善する
         */
-        //$archives = $this->getArchives();
-        //$this->set(compact('archives'));
+        $archives = $this->getArchives();
+        $this->set(compact('archives'));
     }
 
     /**
@@ -93,10 +93,15 @@ class AppController extends Controller
         return true;
     }
 
+    /**
+     * MySQLとPostgresではクエリが微妙に違う
+     * 下記はMySQLに対応したもの
+     */
+    /*
     public function getArchives() {
         $this->loadModel('Articles');
         $query = $this->Articles->find();
-        //NOTE:改良の余地アリ
+        //NOTE: MySQLとPostgresでは日付の扱い方が異なることに注意
         $count = $query->func()->count('id');
         $archives = $query->select(['year' => 'YEAR(created)', 'month' => 'MONTH(created)', 'count' => $count])
             ->distinct(['year', 'month'])
@@ -106,4 +111,25 @@ class AppController extends Controller
 
         return $archives;
     }
+    */
+    /**
+     * 下記はPostgreSQLに対応したもの
+     */
+    public function getArchives() {
+        $this->loadModel('Articles');
+        $query = $this->Articles->find();
+        //NOTE: MySQLとPostgresでは日付の扱い方が異なることに注意
+        $count_query = $query->func()->count('*');
+        $year_query = $query->func()->extract('year', 'created');
+        $month_query = $query->func()->extract('month' ,'created');
+        $archives = $query->select(['year' => $year_query, 'month' => $month_query, 'count' => $count_query])
+            //NOTE:意味的にはDISTINCTの方が正しいのでそちらを使いたい
+            ->group(['year', 'month'])
+            //NOTE:もっといい方法はないものか
+            ->order(['year' => 'DESC'])
+            ->order(['month' => 'DESC']);
+
+        return $archives;
+    }
+
 }
