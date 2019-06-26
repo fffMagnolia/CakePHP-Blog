@@ -138,6 +138,7 @@ class UsersController extends AppController {
             //$this->log($user, LOG_DEBUG);
             if($user) {
                 $this->Auth->setUser($user);
+                //TODO: adminに固定したい
                 return $this->redirect($this->Auth->redirectUrl());
             }
             $this->Flash->error('ユーザ名またはパスワードが不正です');

@@ -148,10 +148,12 @@ class ArticlesController extends AppController {
         //問い合わせる日付の作成
         $date = date("Y-m", mktime(0, 0, 0, $month, 1, $year));
 
+        $this->log($date, LOG_DEBUG);
+
         $query = $this->Articles->find();
         //選択されたリンクの年月日に該当する記事を取得
         $articles = $query->select()
-            ->where(['created LIKE' => "{$date}%"])
+            ->where(["to_char(created, 'YYYY-MM-DDD HH24:MI:SS') LIKE" => "{$date}%"])
             ->order(['id' => 'DESC']);
         $articles = $this->paginate($articles);
 
