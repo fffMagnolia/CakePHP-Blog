@@ -17,8 +17,6 @@ namespace App\Controller;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
 
-//use Cake\Controller\Controller\Exception\SecurityException;
-
 /**
  * Application Controller
  *
@@ -82,7 +80,7 @@ class AppController extends Controller
         /**
          * セキュリティコンポーネントを読み込む
          */
-        $this->loadComponent('Security', ['blackHoleCallback' => 'forceSSL']);
+        //$this->loadComponent('Security', ['blackHoleCallback' => 'forceSSL']);
 
         /** 
          * サイドバーの機能はここで実装。全アクションの共通処理とする
@@ -102,10 +100,10 @@ class AppController extends Controller
         throw $exception;
     }
 
-    public function beforeFilter(Event $event) {
+    /*public function beforeFilter(Event $event) {
         //常にHTTPSで通信するようにする
         $this->Security->requireSecure();
-    }
+    }*/
 
     /**
       * 認証後許可するアクションを指定
