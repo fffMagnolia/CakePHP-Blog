@@ -17,6 +17,8 @@ namespace App\Controller;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
 
+//use Cake\Controller\Controller\Exception\SecurityException;
+
 /**
  * Application Controller
  *
@@ -80,7 +82,7 @@ class AppController extends Controller
         /**
          * セキュリティコンポーネントを読み込む
          */
-        $this->loadComponent('Security');
+        $this->loadComponent('Security', ['blackHoleCallback' => 'forceSSL']);
 
         /** 
          * サイドバーの機能はここで実装。全アクションの共通処理とする
@@ -88,6 +90,16 @@ class AppController extends Controller
         */
         $archives = $this->getArchives();
         $this->set(compact('archives'));
+    }
+
+    //セキュリティの対象外だった場合自動的にセキュアなURLにリダイレクトさせる
+    public function forceSSL($error = '', SecurityException $exception = null)
+    {
+        if ($exception instanceof SecurityException && $exception->getType() === 'secure') {
+            return $this->redirect('https://'. env('SERVER_NAME').Router::url($this->request->getRequestTarget()));
+        }
+
+        throw $exception;
     }
 
     public function beforeFilter(Event $event) {
