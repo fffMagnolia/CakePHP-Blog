@@ -77,12 +77,22 @@ class AppController extends Controller
         //閲覧だけ可能なようにする
         $this->Auth->allow(['display', 'view', 'index', 'archive']);
 
+        /**
+         * セキュリティコンポーネントを読み込む
+         */
+        $this->loadComponent('Security');
+
         /** 
          * サイドバーの機能はここで実装。全アクションの共通処理とする
          * BUG:$this->...だとUsersControllerが対象になったりするので改善する
         */
         $archives = $this->getArchives();
         $this->set(compact('archives'));
+    }
+
+    public function beforeFilter(Event $event) {
+        //常にHTTPSで通信するようにする
+        $this->Security->requireSecure();
     }
 
     /**
